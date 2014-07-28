@@ -19,6 +19,7 @@ if(!isset($_SESSION['id'])){header('Location:login.php');}
 include 'connection.php';
 
 global $id;
+$username = $_SESSION['username'];
 $result=mysql_query("SELECT * FROM data WHERE id='$id'") or die('Invalid query: ' . mysql_error());
 	$data=mysql_fetch_array($result);
 	
@@ -26,8 +27,25 @@ $result=mysql_query("SELECT * FROM data WHERE id='$id'") or die('Invalid query: 
 	echo "Username : ".$_SESSION['username']."<br><br>";
 	echo "Email ID : ".$_SESSION['email']."<br><br>";
 	echo "Password : ".$_SESSION['password']."<br><br>";
-	
 
-$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+
+echo "<h3>Your Contacts</h3>";
 ?>
+
+<form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>">
+<input type="text" name="searchbox" id="searchbox">
+<input type="submit" name="search" value="Search" id="search">
+</form>
+<?php
+if(isset($_POST["search"])) {
+$result=mysql_query("SELECT * FROM contacts WHERE user='$username'") or die('Invalid query: ' . mysql_error());
+	$contacts=mysql_fetch_array($result);
+	
+	echo "Name : ".$contacts["name"]."<br><br>";
+	echo "Mobile : ".$contacts["mobile"]."<br><br>";
+	echo"<button id='edit'>Edit</button>";
+	echo"<button id='delete'>Delete</button><br><br>";
+}
+?>
+<button id='add'>Add new</button><br><br>
 <a href="logout.php">Logout</a>
