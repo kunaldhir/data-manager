@@ -1,13 +1,13 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-<style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+<!--<style>
 #form {display: none ;
 	   border: solid;}
 </style>
-
 <script>
-$(document).ready(function() {
+$(document).ready(function(popup) {
 $( "#form" ).dialog({
 autoOpen: false,
 show: {
@@ -23,13 +23,26 @@ $( "#click" ).click(function() {
 $( "#form" ).dialog( "open" );
 });
 });
-</script>
+</script>-->
 
- <script>
-$(function() { $( "#tags" ).autocomplete({
-source: search.php
+
+<script>
+$(document).ready(function () {
+    //...here is the projects source
+    $("#searchbox").autocomplete({
+        source: "search.php",
+        create: function () {
+            $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+                return $('<li>')
+                    .append('<a onclick="show_details();">'+ item.value + '</a>')
+                    .appendTo(ul);
+            };
+        }
+    });
 });
-});
+function show_details(){
+
+}
 </script>
       
 <?php
@@ -69,9 +82,9 @@ $expire = time();
 
 <form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>">
 <input type="text" name="searchbox" id="searchbox">
-<input type="submit" name="search" value="Search" id="search">
+<!--<input type="submit" name="search" value="Search" id="search">-->
 </form>
-<?php
+<!--<?php
 if(isset($_POST["search"])) {
 
 $searchtext = $_POST['searchbox'];
@@ -89,7 +102,7 @@ if ($num>=1) {
 }
 }
 else {echo "no result";}
-}?>
+}?>-->
 <div id="form">
 <form method='post' action='<?php echo$_SERVER["PHP_SELF"];?>'>
 New name : <input type="text" name="newname" id="newname"><br><br>
