@@ -9,5 +9,5 @@ $result=mysql_query("SELECT * FROM data ") or die('Invalid query: ' . mysql_erro
 		echo "Password : ".$data['password']."<br><br>";		
 		echo"<button>Edit</button>";
 		echo"<button>Delete</button><br><br><br><br></div>";}
-
 ?>
+<a href="logout.php">Logout</a>
