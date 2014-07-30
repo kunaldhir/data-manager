@@ -31,6 +31,7 @@ if (isset($_POST["login"])){
 		$_SESSION['username']=$data['username'];
 		$_SESSION['email']=$data['email'];
 		$_SESSION['password']=$data['password'];
+		$_SESSION['start']=time();
 
 	header('location:members.php');
 	}
