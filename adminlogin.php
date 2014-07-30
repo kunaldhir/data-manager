@@ -22,9 +22,9 @@ if (isset($_POST["login"])){
 	if($admindata['username']==$_POST["adminuser"] && $admindata['password']==md5($_POST["adminpass"])){
 		
 		$_SESSION['id']=$admindata['id'];
-		$_SESSION['ausername']=$admindata['username'];
-		$_SESSION['aemail']=$admindata['email'];
-		$_SESSION['apassword']=$admindata['password'];
+		$_SESSION['username']=$admindata['username'];
+		$_SESSION['email']=$admindata['email'];
+		$_SESSION['password']=$admindata['password'];
 
 	header('location:admin.php');
 
