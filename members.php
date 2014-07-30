@@ -1,10 +1,11 @@
 <?php
 session_start();
+global $start;
+global $expire;
 if(!isset($_SESSION['id'])){header('Location:login.php');}
 
     $start=$_SESSION['start'];
 	echo 'start:'.$start;
-	$expire=time();
 	echo 'expire:'.$expire;
 	$diff=($expire-$start)/60*60;
 	if($diff>10)
@@ -30,6 +31,8 @@ $result=mysql_query("SELECT * FROM data WHERE id='$id'") or die('Invalid query: 
 
 
 echo "<h3>Your Contacts</h3>";
+$expire = time();
+
 ?>
 
 <form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>">
@@ -38,7 +41,10 @@ echo "<h3>Your Contacts</h3>";
 </form>
 <?php
 if(isset($_POST["search"])) {
-$result=mysql_query("SELECT * FROM contacts WHERE user='$username'") or die('Invalid query: ' . mysql_error());
+
+$searchtext = $_POST['searchbox'];
+
+$result=mysql_query("SELECT * FROM contacts WHERE username='$username' LIKE '%$searchtext%'") or die('Invalid query: ' . mysql_error());
 	$contacts=mysql_fetch_array($result);
 	
 	echo "Name : ".$contacts["name"]."<br><br>";
@@ -46,6 +52,7 @@ $result=mysql_query("SELECT * FROM contacts WHERE user='$username'") or die('Inv
 	echo"<button id='edit'>Edit</button>";
 	echo"<button id='delete'>Delete</button><br><br>";
 }
+
 ?>
-<button id='add'>Add new</button><br><br>
+<a href="add.php">Add new</a><br><br>
 <a href="logout.php">Logout</a>
