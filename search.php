@@ -12,7 +12,7 @@ if ($num>=1) {
 		$contacts['value']=htmlentities(stripslashes($contacts['name']));
 		$contacts['id']=(int)$contacts['id'];
 		$array[] = $contacts;
-
+		$_SESSION['id']=$contacts['id'];
 }
 echo json_encode($array);
 }
