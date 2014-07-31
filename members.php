@@ -2,33 +2,14 @@
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-<!--<style>
+
+<style>
 #form {display: none ;
 	   border: solid;}
 </style>
-<script>
-$(document).ready(function(popup) {
-$( "#form" ).dialog({
-autoOpen: false,
-show: {
-effect: "fade",
-duration: 0
-},
-hide: {
-effect: "fade",
-duration: 0
-}
-});
-$( "#click" ).click(function() {
-$( "#form" ).dialog( "open" );
-});
-});
-</script>-->
-
 
 <script>
 $(document).ready(function () {
-    //...here is the projects source
     $("#searchbox").autocomplete({
         source: "search.php",
         create: function () {
@@ -41,8 +22,19 @@ $(document).ready(function () {
     });
 });
 function show_details(){
-
-}
+	$( "#form" ).dialog({
+	autoOpen: false,
+	show: {
+	effect: "fadeIn",
+	duration: 0
+	},
+	hide: {
+	effect: "fadeOut",
+	duration: 0
+	}
+	});
+	
+};
 </script>
       
 <?php
@@ -75,40 +67,44 @@ $result=mysql_query("SELECT * FROM data WHERE id='$id'") or die('Invalid query: 
 	echo "Password : ".$_SESSION['password']."<br><br>";
 
 
-echo "<h3>Your Contacts</h3>";
+echo "<center><h3>Search your contacts</h3>";
 $expire = time();
 
 ?>
 
 <form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>">
 <input type="text" name="searchbox" id="searchbox">
-<!--<input type="submit" name="search" value="Search" id="search">-->
 </form>
-<!--<?php
-if(isset($_POST["search"])) {
 
-$searchtext = $_POST['searchbox'];
-
-$result=mysql_query("SELECT * FROM contacts WHERE username='$username' and  name LIKE '$searchtext%'") or die('Invalid query: ' . mysql_error());
-$num= mysql_num_rows($result);
-if ($num>=1) {
-	
-	while($contacts=mysql_fetch_array($result)){
-	
-	echo "<div id='click'>Name : ".$contacts["name"]."<br><br></div>";
-/*	echo "Mobile : ".$contacts["mobile"]."<br><br>";
-	echo"<button id='edit'>Edit</button>";
-	echo"<button id='delete'>Delete</button><br><br>";*/
-}
-}
-else {echo "no result";}
-}?>-->
 <div id="form">
-<form method='post' action='<?php echo$_SERVER["PHP_SELF"];?>'>
+<?php
+$id = $_SESSION['id'];
+
+$result=mysql_query("SELECT * FROM contacts WHERE id='$id'") or die('Invalid query: ' . mysql_error());
+	$data=mysql_fetch_array($result);
+
+	echo "Name : ".$data['name']."<br><br>";
+	echo "Mobile No. : ".$data['mobile'];
+?>
+
+<form method='post' action='<?php echo $_SERVER["PHP_SELF"];?>'>
 New name : <input type="text" name="newname" id="newname"><br><br>
 New Mobile No. : <input type:"text" name="newmobile" id="newmobile"><br><br>
 <input type="submit" value="Make Changes" id="submit" name="submit">
 </form>
+
+<?php
+if(isset($_POST["submit"])) {
+	$newname = $_POST['newname'];
+	$newmobile = $_POST['newmobile'];
+
+$result1=mysql_query("UPDATE contacts SET name= '$newname', mobile ='$newmobile' WHERE id='$id'") or die ('Invalid query: '.mysql_error());
+	$data1=mysql_fetch_array($result1);
+	echo "Your data has been updated";}
+?>
+
 </div>
+
 <a href="add.php">Add new</a><br><br>
+</center>
 <a href="logout.php">Logout</a>
