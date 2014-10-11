@@ -13,13 +13,10 @@ session_start();
 
 include 'connection.php';
 
-
 if (isset($_POST["login"])){
 	
 	$username=$_POST["username"];
 	$password=md5($_POST["password"]);
-	
-
 	
 	$result=mysql_query("SELECT * FROM data WHERE username='$username' and password='$password' ") or die('Invalid query: ' . mysql_error());
 	$data=mysql_fetch_array($result);
@@ -33,8 +30,7 @@ if (isset($_POST["login"])){
 		$_SESSION['password']=$data['password'];
 		$_SESSION['start']=time();
 
-	header('location:members.php');
-	}
+	header('location:members.php');}
 	
 	else {echo "Your password or name may be wrong.";}}
 
